@@ -45,16 +45,18 @@ class Grooveshark:
 		request, reply = http.request(cowbell_url, 'POST', headers=header, body=json_postdata)
 		self.token = json.loads(reply)['result']
 		
-	def useToken(self, method):
-		tosha = '%s:%s:%s:%s' % (method)
-		m = hashlib.sha1(method)
-		
-		
+	def generateTokenParameter(self, method):
+		tosha = '%s:%s:%s:%s' % (method, self.token, groove_salt, six_hex)
+		m = hashlib.sha1(tosha).hexdigest()
+		return m
 
+	
+		
 g = Grooveshark()
 g.getSessionID()
 g.getSecretKEY()
 g.getToken()
+print g.generateTokenParameter('getStreamKeyFromSongIDEx')
 
 print g.sessionID
 print g.secretKEY
