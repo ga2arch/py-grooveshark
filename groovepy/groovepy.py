@@ -56,8 +56,8 @@ class Groovepy:
         data_json = json.dumps(data)
         url = '%s/%s?%s' % (self.cowbell, url, method)
         req = urllib2.Request(url, data_json,headers=self.headers)
-        resp = urllib2.urlopen(req)
-        resp = json.loads(resp.read())
+        json_resp = urllib2.urlopen(req)
+        resp = json.loads(json_resp.read())
         if resp.has_key('fault'):
             raise Exception(resp['fault']['message'], resp['fault']['code'])
         return resp['result']
