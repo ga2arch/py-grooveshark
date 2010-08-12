@@ -1,5 +1,4 @@
 from groovepy import Groovepy
-from mutagen.mp3 import MP3
 import urllib2
 import os
 
@@ -28,11 +27,6 @@ def download_song_by_id(song_id, folder):
     f = open(rawfile, 'wb')
     f.write(resp.read())
     f.close()
-    filemp3 = MP3(rawfile)
-    try:
-        os.rename(rawfile, '%s.mp3' % (str(filemp3['TIT2'])))
-    except Exception:
-        pass
 
 def get_playlists_by_user_id( user_id):
     params = dict(userID=user_id)
