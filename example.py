@@ -16,14 +16,15 @@ def download_song_by_id(song_id, folder):
         os.chdir(folder)
     except IOError:
         print 'Wrong folder'
-    print 'Downloading song %s' % (song_id)
+    song_name = g.get_song_name_by_id(song_id)
+    print 'Downloading %s.mp3' % (song_name)
     params = dict(songID=song_id, prefetch=False, mobile=False, country=None)
     result = g.run_method('getStreamKeyFromSongIDEx', params)
     ip = result['ip']
     streamkey = result['streamKey']
     data = 'streamKey=%s' % (streamkey, )
     resp = urllib2.urlopen('http://%s/stream.php' % (ip,), data)
-    rawfile = '%s.mp3' % (streamkey,)
+    rawfile = '%s.mp3' % (song_name,)
     f = open(rawfile, 'wb')
     f.write(resp.read())
     f.close()
@@ -57,10 +58,12 @@ def download_playlist(playlist_id, folder):
 user_id = 4497783
 play_id = 32429393
 song_id = 18496982
+folder = '.'
 
 g = Groovepy()
+#print g.get_song_name_by_id(song_id)
 #search('Fabri Fibra')
 #get_songs_by_playlist_id(play_id)
 #get_playlists_by_user_id(user_id)
-#download_song_by_id(song_id, folder)
-download_playlist_by_id(play_id, folder)
+download_song_by_id(song_id, folder)
+#download_playlist_by_id(play_id, folder)

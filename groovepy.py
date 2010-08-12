@@ -1,7 +1,6 @@
-from mutagen.mp3 import MP3
 import hashlib
+import httplib2
 import urllib2
-import urllib
 import random
 import json
 import uuid
@@ -43,6 +42,15 @@ class Groovepy:
         gen_token = seed + hashlib.sha1(tosha).hexdigest()
         return gen_token
 
+    def get_song_name_by_id(self, song_id):
+        http = httplib2.Http()
+        http.follow_redirects = False
+        url = '%s/song/%s' % (self.listen, song_id)
+        header, resp = http.request(url)
+        raw_name = header['location'].split('/')[2]
+        song_name = ' '.join(raw_name.split('+'))
+        return song_name
+        
     def run_method(self, method, params={}, url='more.php'):
         gen_token = self.gen_comm_token(method)
         
