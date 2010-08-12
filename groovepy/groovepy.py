@@ -1,3 +1,4 @@
+from mutagen.mp3 import MP3
 import hashlib
 import urllib2
 import urllib
@@ -61,5 +62,3 @@ class Groovepy:
         if resp.has_key('fault'):
             raise Exception(resp['fault']['message'], resp['fault']['code'])
         return resp['result']
-
-
