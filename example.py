@@ -24,7 +24,7 @@ def download_song_by_id(song_id):
     f.close()
     filemp3 = MP3(rawfile)
     try:
-        os.rename(rawfile, '%s.mp3' % (str(filemp3['TIT2'])))
+        os.rename(rawfile, '%s.mp3' % (str(filemp3['TIT2']))
     except:
         pass
 
