@@ -9,7 +9,7 @@ class Groovepy:
     def __init__(self):
         self.listen = 'http://listen.grooveshark.com'
         self.cowbell = 'https://cowbell.grooveshark.com'
-        self.client_revision = '20100412.81'
+        self.client_revision = '20100412.82'
         self.country = None
         self.headers = {}
         self.headers['Content-Type'] = 'application/json'
@@ -57,4 +57,9 @@ class Groovepy:
         url = '%s/%s?%s' % (self.cowbell, url, method)
         req = urllib2.Request(url, data_json,headers=self.headers)
         resp = urllib2.urlopen(req)
-        return json.loads(resp.read())['result']
+        resp = json.loads(resp.read())
+        if resp.has_key('fault'):
+            raise Exception(resp['fault']['message'], resp['fault']['code'])
+        return resp['result']
+
+
