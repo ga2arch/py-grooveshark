@@ -42,7 +42,7 @@ def get_songs_by_playlist_id(playlist_id):
                                    song['AlbumName'], song['SongID'])
         print s
 
-def download_playlist(playlist_id, folder):
+def download_playlist_by_id(playlist_id, folder):
     params = dict(playlistID=playlist_id)
     songs = g.run_method('playlistGetSongs', params)['Songs']
     for song in songs:
@@ -59,5 +59,5 @@ g = Groovepy()
 #search('Fabri Fibra')
 #get_songs_by_playlist_id(play_id)
 #get_playlists_by_user_id(user_id)
-download_song_by_id(song_id, folder)
+#download_song_by_id(song_id, folder)
 #download_playlist_by_id(play_id, folder)
