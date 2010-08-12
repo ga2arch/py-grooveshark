@@ -12,7 +12,10 @@ def search(query):
             print s
 
 def download_song_by_id(song_id, folder):
-    os.chdir(folder)
+    try:
+        os.chdir(folder)
+    except IOError:
+        print 'Wrong folder'
     print 'Downloading song %s' % (song_id)
     params = dict(songID=song_id, prefetch=False, mobile=False, country=None)
     result = g.run_method('getStreamKeyFromSongIDEx', params)
