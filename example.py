@@ -1,6 +1,7 @@
 from groovepy import Groovepy
 from mutagen.mp3 import MP3
 import urllib2
+import os
 
 def search(query):
         params = dict(query=query, type='Songs')
@@ -10,7 +11,8 @@ def search(query):
                                        song['AlbumName'], song['SongID'])
             print s
 
-def download_song_by_id(song_id):
+def download_song_by_id(song_id, folder):
+    os.chdir(folder)
     print 'Downloading song %s' % (song_id)
     params = dict(songID=song_id, prefetch=False, mobile=False, country=None)
     result = g.run_method('getStreamKeyFromSongIDEx', params)
@@ -24,8 +26,8 @@ def download_song_by_id(song_id):
     f.close()
     filemp3 = MP3(rawfile)
     try:
-        os.rename(rawfile, '%s.mp3' % (str(filemp3['TIT2']))
-    except:
+        os.rename(rawfile, '%s.mp3' % (str(filemp3['TIT2'])))
+    except Exception:
         pass
 
 def get_playlists_by_user_id( user_id):
@@ -50,4 +52,4 @@ g = Groovepy()
 #search('Fabri Fibra')
 #get_songs_by_playlist_id(play_id)
 #get_playlists_by_user_id(user_id)
-#download_song_by_id(song_id)
+download_song_by_id(song_id, folder)
