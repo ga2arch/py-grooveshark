@@ -1,12 +1,13 @@
-import httplib2
+from mutagen.mp3 import MP3
 import hashlib
 import uuid
 import json
 import urllib2
 import random 
 import urllib
+import os
 
-id = 26613819
+songid = 26613819
 
 class Groovepy:
     def __init__(self):
@@ -29,7 +30,7 @@ class Groovepy:
         data_json = json.dumps(data)
         req = urllib2.Request('https://cowbell.grooveshark.com/service.php',data_json,headers=self.headers)
         resp = urllib2.urlopen(req)
-        return = json.loads(resp.read())['result']
+        return json.loads(resp.read())['result']
 
     def gen_comm_token(self, method):
         method = method
@@ -64,13 +65,15 @@ class Groovepy:
 
     def download_song_id(self, song_id):
         ip, streamkey = self.get_stream_key(song_id)
-        print ip, streamkey
         data = dict(streamKey=streamkey)
         resp = urllib2.urlopen('http://%s/stream.php' % (ip,), urllib.urlencode(data))
-        f = open(streamkey + '.mp3', 'wb')
+        rawfile = '%s.mp3' % (streamkey,)
+        f = open(rawfile, 'wb')
         f.write(resp.read())
         f.close()
+        filemp3 = MP3(rawfile)
+        os.rename(rawfile, '%s - %s.mp3' % (str(filemp3['TPE1']), str(filemp3['TIT2'])))
 
 g = Groovepy()
 g.setup()
-g.download_song_id(id)
+g.download_song_id(songid)
