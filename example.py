@@ -1,4 +1,5 @@
 from groovepy import Groovepy
+from mutagen.mp3 import MP3
 import urllib2
 
 def search(query):
@@ -23,8 +24,7 @@ def download_song_by_id(song_id):
     f.close()
     filemp3 = MP3(rawfile)
     try:
-        os.rename(rawfile, '%s - %s.mp3' % (str(filemp3['TPE1']), 
-                                            str(filemp3['TIT2'])))
+        os.rename(rawfile, '%s.mp3' % (str(filemp3['TIT2'])))
     except:
         pass
 
